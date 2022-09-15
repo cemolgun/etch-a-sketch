@@ -1,0 +1,47 @@
+html{
+    font-family: 'VT323', monospace;
+    background-color: #000;
+}
+header{
+    margin-left: -8px;
+    margin-right: -8px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: xx-large;
+    border: 1px black solid;
+    text-align: center;
+    text-shadow: 0.12em 0.12em rgb(173, 255, 47), -0.12em -0.12em rgba(255, 105, 180);
+    background: linear-gradient(transparent,rgba(78, 116, 21, 0.25),rgba(94, 38, 66, 0.25),transparent);
+}
+#konteyner{
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 60vw;
+    text-align: center;
+}
+#btn{
+    display: inline-block;
+}
+button{
+    margin: 2vw;
+    margin-top: 1vh;
+    text-align: center;
+    font-family: 'VT323', monospace;
+    font-size: 2em;
+    background: transparent;
+    color: hotpink;
+    border: 0.075em solid hotpink;
+}
+button:hover{
+    color: greenyellow;
+    border-color:greenyellow;
+}
+button:active{
+    background-color: hotpink;
+    color: black;
+    border: black;
+}
+button::selection{
+    color: white;
+}   
+
