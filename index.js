@@ -29,6 +29,7 @@ listenEvents();
 color = "#000";
 colorHolder = "#000";
 rainbowMode = false;
+eraseMode = false;
 
 function drawGrid(size){
     canvasArray = [];
@@ -45,12 +46,16 @@ function drawGrid(size){
 function listenEvents(){
     subDiv = document.querySelectorAll(".subDiv");
     subDiv.forEach(div => {
-        div.addEventListener("mouseover",action.bind(this,div));
-        div.addEventListener("mousedown",action.bind(this,div,1)); //ekstra argüman kullanmadan çözemedim :/
+        div.addEventListener("mouseover",paint.bind(this,div));
+        div.addEventListener("mousedown",paint.bind(this,div,1)); //ekstra argüman kullanmadan çözemedim :/
     });
 }
-function action(div){
+function paint(div){
     if (mouseDown==true || arguments[1] == 1){
+        if (eraseMode == true){
+            div.style.backgroundColor = `#fff`;
+            return;
+        }
         if (rainbowMode==true){
             div.style.backgroundColor = `${rainbow()}`;
             return;
@@ -63,12 +68,13 @@ sktch = document.getElementById("bSketch");
 erase = document.getElementById("bErase");
 
 function sketchButton(){
+    eraseMode=false;
     color=colorHolder;
     erase.disabled=false;
     sktch.disabled=true;
 }
 function eraseButton(){
-    color = "#fff";
+    eraseMode=true;
     erase.disabled=true;
     sktch.disabled=false;
 }
