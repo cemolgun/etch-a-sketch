@@ -51,10 +51,24 @@ button:disabled{
     border:black;
 }
 #canvas{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    text-align: left;
+    display:inline-block;
     background-color: white;
-    border: 0.5em solid black;
+    border: 8px solid black;
     box-shadow: 0.22em 0.22em greenyellow, -0.22em -0.22em hotpink;
+    line-height: 0px;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */  
+}
+.subDiv{
+    margin:0px;
+    background-color:#fff;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+}
+.subDiv:hover{
+    background-color: #ddd;
 }
