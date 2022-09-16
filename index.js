@@ -31,6 +31,8 @@ colorHolder = "#000";
 rainbowMode = false;
 eraseMode = false;
 
+max_div = Math.floor(canvas.offsetWidth/6);
+
 function drawGrid(size){
     canvasArray = [];
     blockSize = canvasSize/size;
@@ -46,37 +48,42 @@ function drawGrid(size){
 function listenEvents(){
     subDiv = document.querySelectorAll(".subDiv");
     subDiv.forEach(div => {
-        div.addEventListener("mouseover",paint.bind(this,div));
-        div.addEventListener("mousedown",paint.bind(this,div,1)); //ekstra argüman kullanmadan çözemedim :/
-        //Burayı github'dan aldım mouseover efektini touch için kullandığını iddia ediyor    
-        //this.gameGrid is a parent element for the checkboxes
-        div.addEventListener("touchmove", function(e, div) {
-            // get the touch element
-            var touch = e.touches[0];
 
-            // get the DOM element
-            var checkbox = document.elementFromPoint(touch.clientX, touch.clientY);
-
-            // make sure an element was found - some areas on the page may have no elements
-            if (checkbox) {
-                // interact with the DOM element
-                paint(div,1);
+        //div.addEventListener("mouseover",paint.bind(this,div));
+        //div.addEventListener("mousedown",paint.bind(this,div,1)); //ekstra argüman kullanmadan çözemedim :/
+        
+        div.addEventListener("click",paint.bind(this,div));
+        div.addEventListener('pointerover', (event) => {
+            // Call the appropriate pointer type handler
+            switch (event.pointerType) {
+              case 'mouse':
+                if (mouseDown == true) paint(div);
+                break;
+              case 'pen':
+                paint(div);
+                break;
+              case 'touch':
+                paint(div);
+                break;
+              default:
+                console.log(`pointerType ${event.pointerType} is not supported`);
             }
-        });
+          }, false);
+
     });
 }
 function paint(div){
-    if (mouseDown==true || arguments[1] == 1){
-        if (eraseMode == true){
-            div.style.backgroundColor = `#fff`;
-            return;
-        }
-        if (rainbowMode==true){
-            div.style.backgroundColor = `${rainbow()}`;
-            return;
-        }
-        div.style.backgroundColor = `${color}`;
+
+    if (eraseMode == true){
+        div.style.backgroundColor = `#fff`;
+        return;
     }
+    if (rainbowMode==true){
+        div.style.backgroundColor = `${rainbow()}`;
+        return;
+    }
+    div.style.backgroundColor = `${color}`;
+
 }
 
 sktch = document.getElementById("bSketch");
@@ -104,9 +111,9 @@ function setCanvas(){
     if (howManyDivs==Number(document.querySelector("input").value)) return;
 
     howManyDivs=Number(document.querySelector("input").value);
-    if (howManyDivs>100) {
-        howManyDivs=100;
-        document.querySelector("input").value = 100;
+    if (howManyDivs>max_div) {
+        howManyDivs=max_div;
+        document.querySelector("input").value = max_div;
     }
     canvasArray.forEach(element => {
         element.remove();
