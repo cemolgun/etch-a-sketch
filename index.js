@@ -19,11 +19,19 @@ drawGrid(howManyDivs);
 
 // Mouse ilk click ve basılı tutup sürükleme için birkaç ayar + event listener
 
-mouseDown=false;
-canvas.addEventListener("mousedown",function(){mouseDown=true;})
-document.querySelector("body").addEventListener("mouseup",function(){mouseDown=false;})
+document.body.addEventListener("mouseup",function(){isClicking=false;})
+canvas.addEventListener("mousedown",function(){isClicking=true;})
+canvas.addEventListener("touchmove", e =>{
 
-listenEvents();
+    x = Array.from(e.targetTouches)[0].pageX;
+    y = Array.from(e.targetTouches)[0].pageY;
+    touchElement = document.elementFromPoint(x, y);
+    if (canvas.contains(touchElement)){
+        paint(touchElement);
+    }
+
+});
+updateEventListener();
 
 //Değişkenler
 color = "#000";
@@ -31,7 +39,7 @@ colorHolder = "#000";
 rainbowMode = false;
 eraseMode = false;
 
-max_div = Math.floor(canvas.offsetWidth/6);
+max_div = Math.floor(canvas.offsetWidth/6); //min 6px
 
 function drawGrid(size){
     canvasArray = [];
@@ -45,19 +53,16 @@ function drawGrid(size){
     }
 }
 
-function listenEvents(){
+function updateEventListener(){
     subDiv = document.querySelectorAll(".subDiv");
     subDiv.forEach(div => {
-
-        //div.addEventListener("mouseover",paint.bind(this,div));
-        //div.addEventListener("mousedown",paint.bind(this,div,1)); //ekstra argüman kullanmadan çözemedim :/
-        
+    
         div.addEventListener("click",paint.bind(this,div));
         div.addEventListener('pointerover', (event) => {
             // Call the appropriate pointer type handler
             switch (event.pointerType) {
               case 'mouse':
-                if (mouseDown == true) paint(div);
+                if (isClicking == true) paint(div);
                 break;
               case 'pen':
                 paint(div);
@@ -73,7 +78,6 @@ function listenEvents(){
     });
 }
 function paint(div){
-
     if (eraseMode == true){
         div.style.backgroundColor = `#fff`;
         return;
@@ -83,7 +87,6 @@ function paint(div){
         return;
     }
     div.style.backgroundColor = `${color}`;
-
 }
 
 sktch = document.getElementById("bSketch");
@@ -107,7 +110,6 @@ function cleanButton(){
 }
 
 function setCanvas(){
-
     if (howManyDivs==Number(document.querySelector("input").value)) return;
 
     howManyDivs=Number(document.querySelector("input").value);
@@ -119,7 +121,7 @@ function setCanvas(){
         element.remove();
     });
     drawGrid(howManyDivs);
-    listenEvents();
+    updateEventListener();
 }
 
 function setColor(){
