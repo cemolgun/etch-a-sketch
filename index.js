@@ -14,17 +14,21 @@ canvas.style = `height:${canvasSize}px; width:${canvasSize}px;`;
 
 //Canvas'ın subDiv'lerini çiziyoruz
 
-drawGrid(10)
+howManyDivs = 24;
+drawGrid(howManyDivs);
 
-//
+// Mouse ilk click ve basılı tutup sürükleme için birkaç ayar + event listener
+
 mouseDown=false;
 canvas.addEventListener("mousedown",function(){mouseDown=true;})
 document.querySelector("body").addEventListener("mouseup",function(){mouseDown=false;})
-subDiv = document.querySelectorAll(".subDiv");
-subDiv.forEach(div => {
-    div.addEventListener("mouseover",action.bind(this,div));
-    div.addEventListener("mousedown",action.bind(this,div,1));
-});
+
+listenEvents();
+
+//Değişkenler
+color = "#000";
+colorHolder = "#000";
+rainbowMode = false;
 
 function drawGrid(size){
     canvasArray = [];
@@ -38,12 +42,87 @@ function drawGrid(size){
     }
 }
 
-function paintDiv(div, color){
-    div.style.backgroundColor = `${color}`
+function listenEvents(){
+    subDiv = document.querySelectorAll(".subDiv");
+    subDiv.forEach(div => {
+        div.addEventListener("mouseover",action.bind(this,div));
+        div.addEventListener("mousedown",action.bind(this,div,1)); //ekstra argüman kullanmadan çözemedim :/
+    });
 }
-
 function action(div){
     if (mouseDown==true || arguments[1] == 1){
-    paintDiv(div,"black");
+        if (rainbowMode==true){
+            div.style.backgroundColor = `${rainbow()}`;
+            return;
+        }
+        div.style.backgroundColor = `${color}`;
+    }
+}
+
+sktch = document.getElementById("bSketch");
+erase = document.getElementById("bErase");
+
+function sketchButton(){
+    color=colorHolder;
+    erase.disabled=false;
+    sktch.disabled=true;
+}
+function eraseButton(){
+    color = "#fff";
+    erase.disabled=true;
+    sktch.disabled=false;
+}
+function cleanButton(){
+    canvasArray.forEach(div => {
+        div.style.backgroundColor="#fff";        
+    });
+}
+
+function setCanvas(){
+
+    howManyDivs=Number(document.querySelector("input").value);
+    if (howManyDivs>100) {
+        howManyDivs=100;
+        document.querySelector("input").value = 100;
+    }
+    canvasArray.forEach(element => {
+        element.remove();
+    });
+    drawGrid(howManyDivs);
+    listenEvents();
+}
+
+function setColor(){
+    document.querySelector(".popup").style.display="block";
+}
+function rainbow(){
+    rainbowMode=true;
+    document.querySelector(".popup").style.display="none";
+
+    r=String(Math.floor(Math.random()*255));
+    g=String(Math.floor(Math.random()*255));
+    b=String(Math.floor(Math.random()*255));
+
+    return "rgb("+r+","+g+","+b+")";
+}
+function solid(mode){
+    rainbowMode=false;
+    document.querySelector(".popup").style.display="none";
+    switch (mode){
+        case 2:
+            color="#f00";
+            break;
+        case 3:
+            color="#0f0";
+            break;
+        case 4:
+            color="#00f";
+            break;
+        case 5:
+            color="#ff0";
+            break;
+        default:
+            color="#000";
+            break;
     }
 }

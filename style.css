@@ -69,6 +69,37 @@ button:disabled{
     width: 100px;
     height: 100px;
 }
-.subDiv:hover{
-    background-color: #ddd;
+.popup{
+    display: none;
+    margin-top: 30vh;
+    width: 100vw;
+    position: fixed;
+    text-align: center;
+    background:linear-gradient(90deg,transparent,hotpink 30%,limegreen 70%,transparent);
+    border:0.2em solid black;
+}
+.popup h1{
+    font-size: 3em;
+    text-shadow: 0.03em 0.03em #fff, -0.03em -0.03em #fff;
+    text-align: center;
+    margin: 0%;
+    margin-top: 1%;
+}
+.popup button{
+    width: 1.5em;
+    height: 1.5em;
+    border-color: #000;
+}
+#cr{background:linear-gradient(135deg,red,orange,yellow,green,blue,purple);}
+#c1{background: #000;}
+#c2{background: #f00;}
+#c3{background: #0f0;}
+#c4{background: #00f;}
+#c5{background: #fF0;}
+input{
+    margin:2vw;
+    font-size: x-large;
+    background-color: #000;
+    color: hotpink;
+    border: 0.075em solid hotpink;
 }
