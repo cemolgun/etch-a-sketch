@@ -20,6 +20,7 @@ drawGrid(howManyDivs);
 // Mouse ilk click ve basılı tutup sürükleme için birkaç ayar + event listener
 
 isClicking = false;
+document.querySelector("input").addEventListener("keypress",(e)=>{if (e.key==="Enter") setCanvas()});
 document.body.addEventListener("mouseup",function(){isClicking=false;})
 canvasDiv.addEventListener("mousedown",function(){isClicking=true;})
 canvasDiv.addEventListener("touchmove", e =>{
@@ -165,11 +166,8 @@ function saveImage(){
 
     //if(document.body.contains(document.querySelector("canvas"))){img.prepend()};
 
-    imageMultiplier=Number(window.prompt("1 square = ... pixels: "));
-    if (imageMultiplier == NaN){
-        saveImage();
-        return;12
-    }
+    imageMultiplier=Number(window.prompt("1 square = ... pixels: ",5));
+    if(isNaN(imageMultiplier)||imageMultiplier<=0){imageMultiplier=5;}
 
     const img = document.createElement("canvas");
     const ctx = img.getContext("2d");
