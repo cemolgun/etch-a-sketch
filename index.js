@@ -49,6 +49,7 @@ function drawGrid(size){
         canvasArray[i] = document.createElement("div")
         canvasArray[i].classList.add("subDiv");
         canvasArray[i].style = `width:${blockSize}px; height:${blockSize}px;`;
+        canvasArray[i].style.backgroundColor="#ffffff";
         canvasDiv.append(canvasArray[i]);
         if (i%size==0 && i != 0){canvasDiv.append(document.createElement("BR"));}
     }
@@ -158,4 +159,48 @@ function solid(mode){
             color="#000";
             break;
     }
+}
+
+function saveImage(){
+
+    //if(document.body.contains(document.querySelector("canvas"))){img.prepend()};
+
+    imageMultiplier=Number(window.prompt("1 square = ... pixels: "));
+    if (imageMultiplier == NaN){
+        saveImage();
+        return;12
+    }
+
+    const img = document.createElement("canvas");
+    const ctx = img.getContext("2d");
+
+    img.height=howManyDivs*imageMultiplier;
+    img.width=howManyDivs*imageMultiplier;
+
+    x=0;
+    y=0;
+
+    for(let i=0; i<howManyDivs*howManyDivs;i++){
+
+        fillColor=canvasArray[i+1].style.backgroundColor;
+        x = i%howManyDivs;
+        if(i!=0 && x==0){y++};
+
+        ctx.fillStyle=fillColor;
+        ctx.fillRect(x*imageMultiplier,y*imageMultiplier,1*imageMultiplier,1*imageMultiplier);
+
+    }
+    document.querySelector("#imgDiv").append(img);
+    document.querySelector("#imgDiv").append(document.createElement("BR"));
+    downloadButton = document.createElement("button")
+    downloadButton.onclick = function(){download(img)};
+    downloadButton.textContent="DOWNLOAD";
+    document.querySelector("#imgDiv").append(downloadButton);
+    document.querySelector("#imgDiv").append(document.createElement("BR"));
+}
+function download(img){
+    const imageLink = document.createElement("a");
+    imageLink.download="drawing.png";
+    imageLink.href = img.toDataURL("image/png",1);
+    imageLink.click();
 }

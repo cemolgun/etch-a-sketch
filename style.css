@@ -105,3 +105,15 @@ input{
     color: hotpink;
     border: 0.075em solid hotpink;
 }
+#imgDiv{
+    margin-top: 4vh;
+    text-align: center;    
+}
+#imgDiv canvas{
+    max-width: 75vw;
+}
+#imgDiv button{
+    font-size: x-large;
+    margin:0.2em;
+    margin-bottom: 4vh;
+}
