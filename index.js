@@ -4,13 +4,13 @@ header_height = document.querySelector("header").offsetHeight;
 konteyner_height = document.querySelector(".konteyner").offsetHeight;
 headerH1_width = document.querySelector("header h1").offsetWidth;
 
-canvas = document.querySelector("#canvas");
+canvasDiv = document.querySelector("#canvas");
 
 emptyHeight = window.innerHeight - (header_height + (2*konteyner_height));
 canvasSize = emptyHeight*0.95;
 if (canvasSize>window.innerWidth) {canvasSize= window.innerWidth*0.9;}
 
-canvas.style = `height:${canvasSize}px; width:${canvasSize}px;`;
+canvasDiv.style = `height:${canvasSize}px; width:${canvasSize}px;`;
 
 //Canvas'ın subDiv'lerini çiziyoruz
 
@@ -19,14 +19,15 @@ drawGrid(howManyDivs);
 
 // Mouse ilk click ve basılı tutup sürükleme için birkaç ayar + event listener
 
+isClicking = false;
 document.body.addEventListener("mouseup",function(){isClicking=false;})
-canvas.addEventListener("mousedown",function(){isClicking=true;})
-canvas.addEventListener("touchmove", e =>{
-
-    x = Array.from(e.targetTouches)[0].pageX;
-    y = Array.from(e.targetTouches)[0].pageY;
+canvasDiv.addEventListener("mousedown",function(){isClicking=true;})
+canvasDiv.addEventListener("touchmove", e =>{
+    e.preventDefault();  //Zoom, büyütme vs engelliyor.
+    x = e.targetTouches[0].pageX;
+    y = e.targetTouches[0].pageY;
     touchElement = document.elementFromPoint(x, y);
-    if (canvas.contains(touchElement)){
+    if (canvasDiv.contains(touchElement)){
         paint(touchElement);
     }
 
@@ -39,7 +40,7 @@ colorHolder = "#000";
 rainbowMode = false;
 eraseMode = false;
 
-max_div = Math.floor(canvas.offsetWidth/6); //min 6px
+max_div = Math.floor(canvasDiv.offsetWidth/6); //min 6px
 
 function drawGrid(size){
     canvasArray = [];
@@ -48,8 +49,8 @@ function drawGrid(size){
         canvasArray[i] = document.createElement("div")
         canvasArray[i].classList.add("subDiv");
         canvasArray[i].style = `width:${blockSize}px; height:${blockSize}px;`;
-        canvas.append(canvasArray[i]);
-        if (i%size==0 && i != 0){canvas.append(document.createElement("BR"));}
+        canvasDiv.append(canvasArray[i]);
+        if (i%size==0 && i != 0){canvasDiv.append(document.createElement("BR"));}
     }
 }
 

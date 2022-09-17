@@ -73,7 +73,7 @@ button:disabled{
 }
 .popup{
     display: none;
-    margin-top: 30vh;
+    margin-top: 22vh;
     width: 100vw;
     position: fixed;
     text-align: center;
